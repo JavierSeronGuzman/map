@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mapa de Datos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet">
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script>
+  mapboxgl.accessToken = 'pk.eyJ1Ijoic2Vyb254ZCIsImEiOiJjbHY5c3d6MWMwemx5MmtxdjY1NzZvbmlpIn0.ep44DqzCyVe9BXbNyoRmFA'; // Recuerda reemplazar esto con tu token de acceso a Mapbox
+
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11', // Puedes cambiar el estilo del mapa aquí
+    center: [-73.41378345256446, -41.14895012949338], // Coordenadas de Fresia
+    zoom: 14 // Puedes ajustar el nivel de zoom inicial aquí
+  });
+  var miVariable = {}
+  fetch('static/data.json')
+  .then(response => response.json())
+  .then(data => {
+    miVariable = data;
+    //console.log(miVariable); // Utiliza la variable según tus necesidades
+    cargarPuntos();
+  })
+  .catch(error => console.error('Error al cargar el archivo JSON:', error));
+
+
+  function cargarPuntos() {
+    map.on('load', function () {
+      var features = [];
+
+      miVariable.forEach(function (dato) {
+        features.push({
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [dato.Latitud, dato.Longitud]
+          },
+          properties: {
+            title: dato.Nombre,
+            tipo: dato.Tipo
+          }
+        });
+      });
+
+      map.addSource('puntosDinamicos', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: features
+        }
+      });
+
+      map.addLayer({
+        id: 'puntos',
+        type: 'circle',
+        source: 'puntosDinamicos',
+        paint: {
+          'circle-radius': 6,
+          'circle-color': [
+      'match',
+      ['get', 'tipo'],
+      'MAQUINAS DE EJERCICIOS', '#FF3333',
+      'JUNTA DE VECINOS', '#F9FF33',
+      'ESTADIO', '#68FF33',
+      'MULTICANCHA', '#33FFC4',
+      'CENTRO COMUNITARIO', '#33C7FF',
+      'GIMNASIO', '#3C33FF',
+      'JUEGOS INFANTILES', '#CA33FF',
+      'ESTABLECIMIENTO DE EDUCACIÓN BÁSICA Y MEDIA', '#FF33D7',
+      'JARDINES INFANTILES INTEGRA', '#836060',
+      'JARDINES INFANTILES JUNJI', '#107700',
+      'POSTA DE SALUD RURAL', '#FF7503',
+      'INFRAESTRUCTURA DEPORTIVA', '#00256C',
+      /* Agrega más casos según sea necesario */
+      '#000000' // Color predeterminado si no coincide con ninguno de los casos anteriores
+    ]
+        }
+      });
+    });
+  }
+
+  // Agregar control de navegación al mapa
+  map.addControl(new mapboxgl.NavigationControl());
+</script>
+
+</body>
+</html>
