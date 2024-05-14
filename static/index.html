@@ -9,11 +9,50 @@
   <style>
     body { margin: 0; padding: 0; }
     #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+    #legend { position: absolute; top: 10px; left: 10px; background-color: white; padding: 10px; border-radius: 5px; }
+    .legend-item { margin-bottom: 5px; }
+    .legend-color { width: 20px; height: 20px; display: inline-block; margin-right: 5px; border-radius: 50%; }
   </style>
 </head>
 <body>
 
 <div id="map"></div>
+
+<div id="legend">
+  <div class="legend-item">
+    <span class="legend-color" style="background-color: #3F51B5;"></span> Espacio Actividad Física
+  </div>
+  <div class="legend-item">
+    <span class="legend-color" style="background-color: #CE93A8;"></span> Educación
+  </div>
+  <div class="legend-item">
+    <span class="legend-color" style="background-color: #66BB6A;"></span> Áreas Verdes
+  </div>
+  <div class="legend-item">
+    <span class="legend-color" style="background-color: #D84315;"></span> Salud
+  </div>
+  <div class="legend-item">
+    <span class="legend-color" style="background-color: #795548;"></span> Organizaciones Sociales
+  </div>
+  <div class="legend-item">
+    <span class="legend-color" style="background-color: #FFD740;"></span> Ferias
+  </div>
+  <div class="legend-item">
+    <span class="legend-color" style="background-color: #26C6DA;"></span> Dependencias Municipales
+  </div>
+  <div class="legend-item">
+    <span class="legend-color" style="background-color: #9E9E9E;"></span> Comunal
+  </div>
+  <div class="legend-item">
+    <span class="legend-color" style="background-color: #F57F17;"></span> Institución Privada
+  </div>
+  <div class="legend-item">
+    <span class="legend-color" style="background-color: #EF9A9A;"></span> Institución Pública
+  </div>
+  <div class="legend-item">
+    <span class="legend-color" style="background-color: #C51162;"></span> Iglesias
+  </div>
+</div>
 
 <script>
   mapboxgl.accessToken = 'pk.eyJ1Ijoic2Vyb254ZCIsImEiOiJjbHY5c3d6MWMwemx5MmtxdjY1NzZvbmlpIn0.ep44DqzCyVe9BXbNyoRmFA'; // Recuerda reemplazar esto con tu token de acceso a Mapbox
@@ -105,7 +144,7 @@
           'IGLESIA','#EF9A9A',
        'ESTACIÓN MÉDICO RURAL','#D84315',
         'SENDERO, CERRO','#66BB6A',
-       'LUGAR DE TRABAJO PÚBLICO','C51162',
+       'LUGAR DE TRABAJO PÚBLICO','#C51162',
       /* Agrega más casos según sea necesario */
       '#000000' // Color predeterminado si no coincide con ninguno de los casos anteriores
     ]
